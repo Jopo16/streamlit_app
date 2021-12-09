@@ -13,9 +13,6 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn import preprocessing
 
 
-# In[2]:
-
-
 # loading in the model to predict on the data
 with open('DTC.model', 'rb') as fp:
         classifier = pickle.load(fp)
@@ -27,18 +24,14 @@ def checkNumeric(l):
     return all(type(e) in (int, float) for e in l)
 scaler = preprocessing.MinMaxScaler(feature_range=(0,1))
 
-# In[4]:
-
-
 def main():
-      # giving the webpage a title
+    #give API a title
     st.title("Rain Forecast Prediction Classifier")
     st.markdown('<style>h1{color: white;}</style>', unsafe_allow_html=True)
     #st.header("Data mining course 2021")
     #st.markdown('<style>h2{color: white;}</style>', unsafe_allow_html=True)
 
-    # here we define some of the front end elements of the web page like 
-    # the font and background color, the padding and the text to be displayed
+    # define anothe part of API
     html_temp = """
     <style>
     .stApp {
@@ -66,22 +59,16 @@ def main():
     Pressure3pmt = st.text_input("Pressure3pm", "Type Here")
     result =""
       
-    # the below line ensures that when the button called 'Predict' is clicked, 
-    # the prediction function defined above is called to make the prediction 
-    # and store it in the variable result
+    # Make the prediction
     if st.button("Predict"):
-        y=(Windspeed9am, Windspeed3pm, WindgustSpeed, Temp3atpm, Temp9atam, MinTempt,MaxTempt, Humidity9amt, Humidity3pmt, Pressure9amt, Pressure3pmt)
-        if checkNumeric(y)==False:
-            st.error("Please enter all numeric values")
-        else:    
-            df=pd.DataFrame([[Windspeed9am, Windspeed3pm, WindgustSpeed, Temp3atpm, Temp9atam, MinTempt,MaxTempt, Humidity9amt, Humidity3pmt, Pressure9amt, Pressure3pmt]], columns=columns_list)
-            df=df.fillna(0)
-            X = scaler.fit_transform(df)
-            result = classifier.predict(X)
-            if result.flat[0]==0:
-                st.success("Tomorrow it will not rain")
-            else:
-                st.success("Tomorrow it will rain")
+                df=pd.DataFrame([[Windspeed9am, Windspeed3pm, WindgustSpeed, Temp3atpm, Temp9atam, MinTempt,MaxTempt, Humidity9amt, Humidity3pmt, Pressure9amt, Pressure3pmt]], columns=columns_list)
+                df=df.fillna(0)
+                X = scaler.fit_transform(df)
+                result = classifier.predict(X)
+                if result.flat[0]==0:
+                        st.success("Tomorrow it will not rain")
+                else:
+                        st.success("Tomorrow it will rain")
      
 if __name__=='__main__':
     main()
