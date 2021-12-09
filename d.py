@@ -9,7 +9,7 @@ import pandas as pd
 import numpy as np
 import pickle
 import streamlit as st
-from sklearn.tree import DecisionTreeClassifier
+from sklearn import DecisionTreeClassifier
 from sklearn import model_selection, preprocessing
 
 
